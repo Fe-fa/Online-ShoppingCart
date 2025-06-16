@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Classic@ Products</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    body {
+      background: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+      padding-top: 70px;
+    }
+    .navbar {
+      background: #fff;
+      padding: 8px 0;
+      border-bottom: 1px solid #ddd;
+    }
+    .navbar-brand {
+      padding: 5px 15px;
+    }
+    .navbar-brand img {
+      margin-right: 6px;
+    }
+    .navbar-form {
+      margin-top: 5px;
+    }
+    .navbar-form .form-control,
+    .navbar-form .btn {
+      height: 32px;
+      font-size: 13px;
+    }
+    .navbar-nav > li > a {
+      padding-top: 10px !important;
+      padding-bottom: 10px !important;
+      font-size: 13px;
+    }
+    .dropdown-menu > li > a {
+      font-size: 13px;
+      padding: 6px 12px;
+    }
+    .product-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 20px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .product-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .product-card h5 {
+      font-size: 15px;
+      margin: 0 0 5px;
+    }
+    .product-card p {
+      font-size: 12px;
+      color: #666;
+    }
+    .product-price {
+      font-size: 14px;
+      font-weight: bold;
+      color: #f60;
+    }
+    .btn-warning {
+      background-color: #f60;
+      border: none;
+      padding: 6px 10px;
+      font-size: 12px;
+    }
+    .btn-warning:hover {
+      background: #000;
+    }
+    #categoryFilter {
+      margin-bottom: 20px;
+      max-width: 300px;
+      font-size: 13px;
+    }
+    footer {
+      font-size: 12px;
+    }
+    .footer-top {
+      background: #000;
+      color: #fff;
+      padding: 25px 10px;
+    }
+    .footer-bottom {
+      background: #111;
+      color: #aaa;
+      padding: 20px 10px;
+    }
+    .footer-bottom ul {
+      padding: 0;
+      list-style: none;
+    }
+    .footer-bottom a {
+      color: #aaa;
+      text-decoration: none;
+    }
+    .footer-bottom a:hover {
+      color: #f60;
+    }
+    .footer-bottom .text-center p {
+      margin: 5px 0;
+    }
+.product-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+.product-card img:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+#quickViewModal .modal-header {
+  background-color: #f60;
+  color: #fff;
+}
+#quickViewModal .modal-body h4 {
+  font-weight: bold;
+  color: #333;
+}
+#quickViewModal .modal-body .img-responsive {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+#quickViewModal .modal-body .related-title {
+  font-size: 14px;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  color: #f60;
+  font-weight: bold;
+}
+.related-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.related-products img {
+  height: 60px;
+  width: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.related-products img:hover {
+  transform: scale(1.1);
+}
+
+    @media (max-width: 767px) {
+        .product-card {
+    margin-bottom: 15px;
+  }
+      .product-card img {
+        height: 140px;
+      }
+      .product-card h5 {
+        font-size: 14px;
+      }
+      .product-card p {
+        font-size: 11px;
+      }
+      .product-price {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+<a class="navbar-brand" href="dashboard.html" style="display: flex; align-items: center;">
+  <img src="Classic.png" width="30" height="30" alt="" style="margin-right: 8px;">
+  <div style="line-height: 1;">
+    <span style="color: orange; font-size: 16px; font-weight: bold;">Giddy</span><br>
+    <small class="text-muted" style="font-size: 11px;">Affordable Online Shopping</small>
+  </div>
+</a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
+        <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+     <form class="navbar-form navbar-left" id="searchForm" style="width: 60%;">
+        <div class="input-group" style="width: 100%;">
+          <input type="text" class="form-control" placeholder="Search products, brands and categories">
+          <span class="input-group-btn">
+            <button class="btn btn-warning" type="submit">Search</button>
+          </span>
+        </div>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Account <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">My Account</a></li>
+            <li><a href="#">Orders</a></li>
+            <li><a href="#">Logout</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-question-sign"></span> Help <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Place your Order</a></li>
+            <li><a href="#">Payments</a></li>
+            <li><a href="#">Returns</a></li>
+            <li><a href="#">Warranty</a></li>
+            <li><a href="#" style="background: orange; color: white; text-align: center;">Live Chat</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="carts.html">
+            <span class="glyphicon glyphicon-shopping-cart"></span> Cart
+            <span class="badge" id="cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  <h4 class="text-center text-dark">Available Products</h4>
+  <div class="text-center">
+    <select id="categoryFilter" class="form-control center-block" onchange="filterByCategory(this.value)">
+      <option value="">All Categories</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Fashion">Fashion</option>
+      <option value="Groceries">Groceries</option>
+    </select>
+  </div>
+  <div class="row" id="product-list" style="margin-top: 20px;"></div>
+</div>
+<div id="quickViewModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Product Quick View</h4>
+      </div>
+      <div class="modal-body" id="quickViewBody">
+  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="footer-top text-center">
+    <h4>Classic <span style="color: orange;">@</span></h4>
+    <p>Subscribe to our newsletter for the latest updates!</p>
+    <form class="form-inline">
+      <input type="email" class="form-control input-sm" placeholder="Enter E-mail Address" required>
+      <button type="submit" class="btn btn-warning btn-sm">Subscribe</button>
+    </form>
+  </div>
+  <div class="footer-bottom">
+    <div class="row">
+      <div class="col-sm-4">
+        <h5>Need Help?</h5>
+        <ul><li><a href="#">Chat with Us</a></li><li><a href="#">Help Center</a></li><li><a href="#">Contact Us</a></li></ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>About Classic@</h5>
+        <ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li></ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>Make Money With Us</h5>
+        <ul><li><a href="#">Sell on Classic@</a></li><li><a href="#">Vendor Portal</a></li></ul>
+      </div>
+    </div>
+    <hr>
+    <div class="text-center">
+      <p>&copy; 2025 Classic@. All rights reserved.</p>
+      <p><a href="#">Kenya</a> | <a href="#">Ghana</a> | <a href="#">Egypt</a> | <a href="#">Uganda</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("searchForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const keyword = this.querySelector("input").value.trim().toLowerCase();
+  fetch("get_products.php")
+    .then(response => response.json())
+    .then(products => {
+      const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(keyword) ||
+        product.description.toLowerCase().includes(keyword) ||
+        product.category?.toLowerCase().includes(keyword)
+      );
+      renderProducts(filtered);
+    });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("get_products.php")
+    .then(response => response.json())
+    .then(products => renderProducts(products))
+    .catch(error => console.error("Failed to load products:", error));
+});
+
+function filterByCategory(category) {
+  fetch("get_products.php?category=" + encodeURIComponent(category))
+    .then(response => response.json())
+    .then(renderProducts);
+}
+
+function renderProducts(products) {
+  const container = document.getElementById("product-list");
+  container.innerHTML = "";
+  products.forEach(product => {
+container.innerHTML += `
+ <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="product-card">
+      <img src="${product.image}" alt="${product.name}">
+      <h5>${product.name}</h5>
+      <p class="product-price">Ksh ${parseFloat(product.amount).toFixed(2)}</p>
+      <div class="btn-group">
+        <button class="btn btn-warning btn-sm" onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>
+        <button class="btn btn-default btn-sm" onclick='buyNow(${JSON.stringify(product)})'>Buy Now</button>
+      </div>
+      <button class="btn btn-link btn-xs" onclick='openQuickView(${JSON.stringify(product)})'>Quick View</button>
+    </div>
+  </div>`;
+
+  });
+}
+
+function buyNow(product) {
+  localStorage.setItem("checkoutProduct", JSON.stringify(product));
+  window.location.href = "checkout.html";
+}
+
+function openQuickView(product) {
+  const modalBody = document.getElementById("quickViewBody");
+  let relatedHTML = "";
+
+  fetch("get_products.php")
+    .then(res => res.json())
+    .then(products => {
+      const related = products.filter(p => p.id !== product.id);
+      shuffleArray(related);
+      const shown = related.slice(0, 4);
+
+      relatedHTML = `
+        <p class="related-title">You May Also Like</p>
+        <div class="related-products">
+          ${shown.map(p => `
+            <img src="${p.image}" alt="${p.name}" onclick='openQuickView(${JSON.stringify(p)})'>
+          `).join('')}
+        </div>
+      `;
+      modalBody.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" class="img-responsive center-block" style="max-height:220px; margin-bottom:10px;">
+        <h4>${product.name}</h4>
+        <p>${product.description}</p>
+        <p><strong>Price:</strong> <span style="color: #f60;">Ksh ${parseFloat(product.amount).toFixed(2)}</span></p>
+        <button class="btn btn-warning btn-sm" onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>
+        <button class="btn btn-default btn-sm" onclick='buyNow(${JSON.stringify(product)})'>Buy Now</button>
+        ${relatedHTML}
+      `;
+      $('#quickViewModal').modal('show');
+    });
+}
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+function addToCart(product) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const index = cart.findIndex(item => item.id === product.id);
+  if (index !== -1) {
+    cart[index].quantity += 1;
+  } else {
+    product.quantity = 1;
+    cart.push(product);
+  }
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
+  alert(`${product.name} added to cart!`);
+}
+function updateCartCount() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  let count = cart.reduce((sum, item) => sum + parseInt(item.quantity || 1), 0);
+  const badge = document.getElementById("cart-count");
+  if (badge) {
+    badge.innerText = count;
+  }
+}
+document.addEventListener("DOMContentLoaded", updateCartCount);
+</script>
+</body>
+</html>

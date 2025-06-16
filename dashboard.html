@@ -10,7 +10,8 @@
   <style>
     body {
       background: linear-gradient(to right, #e0f7fa, #ffffff);
-      padding-top: 50px;
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding-top: 80px;
     }
 
     .sidebar a {
@@ -39,7 +40,7 @@
     display: none;
     position: absolute;
     left: 0;
-    bottom: 100%; /* Appears above */
+    bottom: 100%;
     width: 200px;
     background: white;
     border: 1px solid #ddd;
@@ -135,8 +136,7 @@
   </style>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top" style="background: #fff; border-bottom: 1px solid #ccc;">
-
+<nav class="navbar navbar-default navbar-fixed-top" style="background: #fff; border-bottom: 1px solid #ccc; padding: 15px 0;">
   <div class="container-fluid">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#mainNavbar">
@@ -144,22 +144,27 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#" style="font-weight: bold; color: black;">Classic <span style="color: orange;">@</span></a>
+<a class="navbar-brand" href="dashboard.html" style="display: flex; align-items: center;">
+  <img src="Classic.png" width="30" height="30" alt="" style="margin-right: 8px;">
+  <div style="line-height: 1;">
+    <span style="color: orange; font-size: 16px; font-weight: bold;">Giddy</span><br>
+    <small class="text-muted" style="font-size: 11px;">Affordable Online Shopping</small>
+  </div>
+</a>
     </div>
-
     <div class="collapse navbar-collapse" id="mainNavbar">
-      <form class="navbar-form navbar-left" style="width: 60%;">
+      <form class="navbar-form navbar-left" style="width: 60%; margin-top: 10px;">
         <div class="input-group" style="width: 100%;">
-          <input type="text" class="form-control" placeholder="Search products, brands and categories" style="width: 100%;">
+          <input type="text" class="form-control" placeholder="Search products, brands and categories" style="width: 100%; height: 38px;">
           <span class="input-group-btn">
-            <button class="btn btn-warning" type="submit" style="border-radius: 0 4px 4px 0; color: black;">Search</button>
+            <button class="btn btn-warning" type="submit" style="border-radius: 0 4px 4px 0; color: black; height: 38px;">Search</button>
           </span>
         </div>
       </form>
 
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right" style="margin-top: 10px;">
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="padding: 15px;">
             <span class="glyphicon glyphicon-user"></span> Account <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
@@ -169,7 +174,7 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="padding: 15px;">
             <span class="glyphicon glyphicon-question-sign"></span> Help <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
@@ -185,17 +190,18 @@
             </li>
           </ul>
         </li>
-        <li><a href="carts.html"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+        <li><a href="carts.html" style="padding: 15px;"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
+
 <div class="container-fluid">
      <div class="sidebar" style="background: white; border: none; border-radius: 10px; padding: 15px; width: 200px;">
       <ul class="nav nav-pills nav-stacked" style="font-size: 12px;">
-        <li><a href="#"><span class="glyphicon glyphicon-home"></span> Products</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-phone"></span> Phones & Tablets</a></li>
+        <li><a href="product.html"><span class="glyphicon glyphicon-home"></span> Products</a></li>
+        <li><a href="product.html"><span class="glyphicon glyphicon-phone"></span>Products</a></li>
         <li><a href="#"><span class="glyphicon glyphicon-facetime-video"></span> TVs & Audio</a></li>
         <li><a href="#"><span class="glyphicon glyphicon-wrench"></span> Appliances</a></li>
         <li><a href="#"><span class="glyphicon glyphicon-plus-sign"></span> Health & Beauty</a></li>
@@ -258,6 +264,5 @@
     </div>
   </div>
 </footer>
-
 </body>
 </html>
