@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Classic@ Products</title>
+  <title>Giddy@ Products</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
     body {
       background: #f4f4f4;
@@ -80,38 +81,55 @@
     .btn-warning:hover {
       background: #000;
     }
-    #categoryFilter {
-      margin-bottom: 20px;
-      max-width: 300px;
-      font-size: 13px;
-    }
-    footer {
-      font-size: 12px;
-    }
-    .footer-top {
-      background: #000;
-      color: #fff;
-      padding: 25px 10px;
-    }
-    .footer-bottom {
-      background: #111;
-      color: #aaa;
-      padding: 20px 10px;
-    }
-    .footer-bottom ul {
-      padding: 0;
-      list-style: none;
-    }
-    .footer-bottom a {
-      color: #aaa;
-      text-decoration: none;
-    }
-    .footer-bottom a:hover {
-      color: #f60;
-    }
-    .footer-bottom .text-center p {
-      margin: 5px 0;
-    }
+    .section-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #f60; 
+  margin-top: 30px;
+  margin-bottom: 25px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+
+.section-title::after {
+  content: '';
+  width: 60%;
+  height: 3px;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.category-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 10px;
+  background-color: #f9f9f9;
+}
+
+.category-btn {
+  display: inline-block;
+  margin: 5px 8px;
+  padding: 8px 15px;
+  border: none;
+  background-color: #e6e6e6;
+  color: #555;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.category-btn:hover {
+  background-color: #f60;
+}
+
+.category-btn.active {
+  background-color: #d9534f;
+  color: white;
+}
 .product-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
@@ -157,6 +175,36 @@
 }
 .related-products img:hover {
   transform: scale(1.1);
+}
+    footer {
+      font-size: 12px;
+    }
+    .footer-top {
+      background: #000;
+      color: #fff;
+      padding: 25px 10px;
+    }
+    .footer-bottom {
+      background: #111;
+      color: #aaa;
+      padding: 20px 10px;
+    }
+    .footer-bottom ul {
+      padding: 0;
+      list-style: none;
+    }
+    .footer-bottom a {
+      color: #aaa;
+      text-decoration: none;
+    }
+    .footer-bottom a:hover {
+      color: #f60;
+    }
+    .footer-bottom .text-center p {
+      margin: 5px 0;
+    }
+    #showMoreBtn {
+  margin-bottom: 15px;
 }
 
     @media (max-width: 767px) {
@@ -234,16 +282,25 @@
 </nav>
 
 <div class="container">
-  <h4 class="text-center text-dark">Available Products</h4>
-  <div class="text-center">
-    <select id="categoryFilter" class="form-control center-block" onchange="filterByCategory(this.value)">
-      <option value="">All Categories</option>
-      <option value="Electronics">Electronics</option>
-      <option value="Fashion">Fashion</option>
-      <option value="Groceries">Groceries</option>
-    </select>
-  </div>
+<h4 class="section-title text-center">
+  <i class="fa fa-shopping-bag text-primary"></i> Giddy's Products
+</h4>
+<div class="category-scroll text-center">
+  <button class="category-btn active" onclick="filterByCategory('')">All</button>
+  <button class="category-btn" onclick="filterByCategory('Electronics')">Electronics</button>
+  <button class="category-btn" onclick="filterByCategory('Electronics & Appliances')">Electronics & Appliances</button>
+  <button class="category-btn" onclick="filterByCategory('Office Products')">Office Products</button>
+  <button class="category-btn" onclick="filterByCategory('Automotive')">Automotive</button>
+  <button class="category-btn" onclick="filterByCategory('Sports & Outdoors')">Sports & Outdoors</button>
+  <button class="category-btn" onclick="filterByCategory('Toys & Games')">Toys & Games</button>
+  <button class="category-btn" onclick="filterByCategory('Kids & Baby Products')">Kids & Baby Products</button>
+  <button class="category-btn" onclick="filterByCategory('Shoes')">Shoes</button>
+</div>
   <div class="row" id="product-list" style="margin-top: 20px;"></div>
+  <div class="text-center" style="margin-top: 20px;">
+  <button id="showMoreBtn" class="btn btn-primary">Show More</button>
+</div>
+
 </div>
 <div id="quickViewModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-sm">
@@ -308,6 +365,25 @@
       renderProducts(filtered);
     });
 });
+//Categories
+  function filterByCategory(category) {
+    fetch("get_products.php?category=" + encodeURIComponent(category))
+      .then(res => res.json())
+      .then(renderProducts);
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.textContent.trim() === category || (category === '' && btn.textContent.trim() === 'All')) {
+        btn.classList.add('active');
+      }
+    });
+  }
+    $(document).ready(function(){
+    $(".category-btn").click(function(){
+      $(".category-btn").removeClass("active btn-danger");
+      $(this).addClass("active btn-danger");
+    });
+  });
+  //
 document.addEventListener("DOMContentLoaded", () => {
   fetch("get_products.php")
     .then(response => response.json())
@@ -324,23 +400,39 @@ function filterByCategory(category) {
 function renderProducts(products) {
   const container = document.getElementById("product-list");
   container.innerHTML = "";
-  products.forEach(product => {
-container.innerHTML += `
- <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <div class="product-card">
-      <img src="${product.image}" alt="${product.name}">
-      <h5>${product.name}</h5>
-      <p class="product-price">Ksh ${parseFloat(product.amount).toFixed(2)}</p>
-      <div class="btn-group">
-        <button class="btn btn-warning btn-sm" onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>
-        <button class="btn btn-default btn-sm" onclick='buyNow(${JSON.stringify(product)})'>Buy Now</button>
-      </div>
-      <button class="btn btn-link btn-xs" onclick='openQuickView(${JSON.stringify(product)})'>Quick View</button>
-    </div>
-  </div>`;
 
+  products.forEach(product => {
+    const discountBadge = product.discount_percent > 0
+      ? `<span class="badge" style="background: red; position: absolute; top: 5px; left: 5px;">-${product.discount_percent}%</span>`
+      : '';
+
+    const priceDisplay = product.discount_percent > 0
+      ? `<p class="product-price">
+           <del>Ksh ${parseFloat(product.price).toFixed(2)}</del>
+           <span style="color:red;"> Ksh ${(product.price * (1 - product.discount_percent / 100)).toFixed(2)}</span>
+         </p>`
+      : `<p class="product-price">Ksh ${parseFloat(product.price).toFixed(2)}</p>`;
+
+    container.innerHTML += `
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <div class="product-card position-relative" style="margin-bottom: 20px;">
+        ${discountBadge}
+        <img src="${product.image_url}" alt="${product.name}" class="img-responsive" style="max-height:180px;">
+        <h5 style="margin-top:10px;">${product.name}</h5>
+        ${priceDisplay}
+        <p style="font-size: 12px; color: #666;">${product.description.substring(0, 80)}...</p>
+        <p style="font-size: 12px;"><strong>Stock:</strong> ${product.stock_quantity}</p>
+        <p style="font-size: 12px;"><strong>Status:</strong> ${product.status}</p>
+        <div class="btn-group btn-group-sm">
+          <button class="btn btn-warning" onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>
+          <button class="btn btn-default" onclick='buyNow(${JSON.stringify(product)})'>Buy Now</button>
+        </div>
+        <button class="btn btn-link btn-xs" onclick='openQuickView(${JSON.stringify(product)})'>Quick View</button>
+      </div>
+    </div>`;
   });
 }
+
 
 function buyNow(product) {
   localStorage.setItem("checkoutProduct", JSON.stringify(product));
@@ -348,36 +440,11 @@ function buyNow(product) {
 }
 
 function openQuickView(product) {
-  const modalBody = document.getElementById("quickViewBody");
-  let relatedHTML = "";
-
-  fetch("get_products.php")
-    .then(res => res.json())
-    .then(products => {
-      const related = products.filter(p => p.id !== product.id);
-      shuffleArray(related);
-      const shown = related.slice(0, 4);
-
-      relatedHTML = `
-        <p class="related-title">You May Also Like</p>
-        <div class="related-products">
-          ${shown.map(p => `
-            <img src="${p.image}" alt="${p.name}" onclick='openQuickView(${JSON.stringify(p)})'>
-          `).join('')}
-        </div>
-      `;
-      modalBody.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" class="img-responsive center-block" style="max-height:220px; margin-bottom:10px;">
-        <h4>${product.name}</h4>
-        <p>${product.description}</p>
-        <p><strong>Price:</strong> <span style="color: #f60;">Ksh ${parseFloat(product.amount).toFixed(2)}</span></p>
-        <button class="btn btn-warning btn-sm" onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>
-        <button class="btn btn-default btn-sm" onclick='buyNow(${JSON.stringify(product)})'>Buy Now</button>
-        ${relatedHTML}
-      `;
-      $('#quickViewModal').modal('show');
-    });
+  localStorage.setItem("quickViewProduct", JSON.stringify(product));
+  window.location.href = "quickview.html";
 }
+
+
 function shuffleArray(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -406,6 +473,19 @@ function updateCartCount() {
   }
 }
 document.addEventListener("DOMContentLoaded", updateCartCount);
+//show more
+  $(document).ready(function() {
+    $(".product-card").hide();
+    $(".product-card").slice(0, 6).show();
+
+    $("#showMoreBtn").click(function(e) {
+      e.preventDefault();
+      $(".product-card:hidden").slice(0, 6).slideDown();
+      if ($(".product-card:hidden").length == 0) {
+        $("#showMoreBtn").fadeOut();
+      }
+    });
+  });
 </script>
 </body>
 </html>
